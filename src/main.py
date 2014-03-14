@@ -1,3 +1,4 @@
+#Main Application
 from comp61542 import app
 from comp61542.database import (database, mock_database)
 import sys
