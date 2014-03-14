@@ -4,7 +4,7 @@ import sys
 import os
 
 if len(sys.argv) == 1:
-    dataset = "Mock"
+    dataset = "Mock2"
     db = mock_database.MockDatabase()
 else:
     data_file = sys.argv[1]
