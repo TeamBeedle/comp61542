@@ -1,5 +1,7 @@
 *.pyc
 
+.git/
+.idea/
 .project
 .pydevproject
 venv/
