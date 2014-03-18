@@ -27,9 +27,12 @@ def mode(X):
         else:
             d[item] = 1
 
-    m = (0, 0)
+    #Added for Mode Function
+    m = [1] #Mode max number of occurrences initialized to 1
     for key in d.keys():
-        if d[key] > m[1]:
-            m = (key, d[key])
+        if d[key] > m[0]:
+            m = [d[key], key]
+        elif d[key] == m[0]:
+            m.append(key)
+    return m[1:]
 
-    return [m[0]]
