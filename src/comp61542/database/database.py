@@ -223,6 +223,15 @@ class Database:
             for i in range(len(astats)) ]
         return (header, data)
 
+    def get_numberoftime_author_appear(self, authorName):
+        numOfTimeAppearFirst = 0
+        numOfTimeAppearLast = 0
+
+        for p in self.publications:
+            print p.authors[0] + "\n"
+
+        return (numOfTimeAppearFirst, numOfTimeAppearLast)
+
     def get_average_authors_per_publication_by_year(self, av):
         header = ("Year", "Conference papers",
             "Journals", "Books",
