@@ -1,6 +1,4 @@
-<!doctype html>
-<script type="text/javascript">
-    // Copyright 2007 - 2010 Gennadiy Shvets
+// Copyright 2007 - 2010 Gennadiy Shvets
 // The program is distributed under the terms of the GNU General
 // Public License 3.0
 //
@@ -449,26 +447,3 @@ else
 	// Assign new onload function
 	window.onload = tsInitOnload;
 }
-
-</script>
-<html>
-  <head>
-    <title>{% block title %}{% endblock %}</title>
-  </head>
-
-  <body>
-    <div id="page">
-      <div id="header">
-        <h1>COMP61542: {{ args.dataset }}</h1>
-
-        <div id="navigation">
-          <a href="/">Home</a>
-        </div>
-      </div>
-
-      <div id="content">
-        {% block content %}{% endblock %}
-      </div>
-    </div>
-  </body>
-</html>

@@ -281,6 +281,27 @@ class Database:
             for i in range(len(astats)) ]
         return (header, data)
 
+    def get_number_of_appearance_by_author(self):
+        header = ("Author", "Appear first in Conference Paper",
+                            "Appear first in Journal",
+                            "Appear first in Book",
+                            "Appear first in Book Chapter",
+                            "Appear last in Conference Paper",
+                            "Appear last in Journal",
+                            "Appear last in Book",
+                            "Appear last in Book Chapter",)
+
+        fstats = [ [[0, 0, 0, 0], [0, 0, 0, 0]] for _ in range(len(self.authors)) ]
+        for p in self.publications:
+            for a in p.authors:
+                if p.is_last(a):
+                    fstats[a][1][p.pub_type] += 1
+                elif p.is_first(a):
+                    fstats[a][0][p.pub_type] += 1
+
+        data = [ [self.authors[i].name]  + fstats[i][0] + fstats[i][1]
+            for i in range(len(fstats)) ]
+        return (header, data)
 
     def get_average_authors_per_publication_by_year(self, av):
         header = ("Year", "Conference papers",

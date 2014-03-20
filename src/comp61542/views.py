@@ -116,4 +116,9 @@ def showPublicationSummary(status):
         args["title"] = "Author by Year"
         args["data"] = db.get_author_totals_by_year()
 
+    if (status == "appearance_author"):
+        args["title"] = "Appearance"
+        args["data"] = db.get_number_of_appearance_by_author()
+
     return render_template('statistics_details.html', args=args)
+

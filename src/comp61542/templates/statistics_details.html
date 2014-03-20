@@ -4,7 +4,14 @@
 
 <h1>{{ args.title }}</h1>
 
-<table>
+<script type="text/javascript">
+<!--
+var TSort_Data = new Array ('statistics_details', 's', 'i', 'i', 'i', 'i', 'i', 'i', 'i', 'i');
+tsRegister();
+// -->
+</script>
+
+<table id="statistics_details">
   <thead>
     <tr>
     {% for column in args.data[0] %}
