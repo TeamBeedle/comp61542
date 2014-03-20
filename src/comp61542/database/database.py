@@ -362,6 +362,14 @@ class Database:
                     links.add((a, a2))
         return (nodes, links)
 
+    def search_author(self, author_name):
+
+        header, data = self.get_publications_by_author()
+        author_id = self.author_idx[author_name]
+        len(data[author_id])
+        len(header)
+        return (header, data[author_id])
+
 class DocumentHandler(handler.ContentHandler):
     TITLE_TAGS = [ "sub", "sup", "i", "tt", "ref" ]
     PUB_TYPE = {

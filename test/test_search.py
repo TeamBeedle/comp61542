@@ -14,9 +14,9 @@ class TestSearch(unittest.TestCase):
         db = database.Database()
         self.assertTrue(db.read(path.join(self.data_dir, "publications_small_sample.xml")))
         header, data = db.search_author(authorName)
-        self.assertEqual(len(header), len(data[0]),
+        self.assertEqual(len(header), len(data),
             "header and data column size doesn't match")
-        self.assertEqual(len(data), 1,
+        self.assertEqual(data[0],authorName,
             "incorrect number of authors")
-        self.assertEqual(data[0][0], 1,
+        self.assertEqual(data[2], 0,
             "incorrect total")
