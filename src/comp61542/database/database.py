@@ -422,8 +422,9 @@ class Database:
         return (nodes, links)
 
     def search_author(self, author_name):
-
         header, data = self.get_publications_by_author()
+        if self.author_idx.get(author_name) == None:
+            return None, None
         author_id = self.author_idx[author_name]
         coauthorData = self._get_collaborations(author_id,False)
         first, last = self.get_numberoftime_author_appear(author_id)

@@ -135,6 +135,9 @@ def showSearchAuthor():
         author_name = request.args.get("author_name")
 
     header, data = db.search_author(author_name)
+    if data == None:
+        data = ()
+        headers = ["No author found"]
     tables.append({
         "id":1,
         "title":"Author Statistics Details",
