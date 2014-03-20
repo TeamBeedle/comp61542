@@ -30,4 +30,16 @@ Author Name: <input type="text" name="author_name" value="{{ args.author_name }}
 </table>
 <br/>
 {% endfor %}
+<script>
+function validateForm(form){
+  author_name = form["author_name"].value;
+
+  if (author_name.contains([0-9]) || author_name.trim() == ""){
+    alert("Invalid author name");
+    return false;
+  }
+  return true;
+}
+</script>
+
 {% endblock %}
