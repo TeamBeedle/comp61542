@@ -139,7 +139,7 @@ def showSearchAuthor():
         "id":1,
         "title":"Author Statistics Details",
         "header":headers,
-        "rows":db.search_author(author_name)})
+        "rows":data})
 
     args['tables'] = tables
 

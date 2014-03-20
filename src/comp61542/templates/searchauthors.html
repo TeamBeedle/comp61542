@@ -19,13 +19,13 @@ Author Name: <input type="text" name="author_name" value="{{ args.author_name }}
     </tr>
   </thead>
   <tbody>
-    {% for row in table.rows %}
+
       <tr>
-        {% for data_item in row %}
+        {% for data_item in table.rows %}
           <td>{{ data_item }}</td>
         {% endfor %}
       </tr>
-    {% endfor %}
+
   </tbody>
 </table>
 <br/>
