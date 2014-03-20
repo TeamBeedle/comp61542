@@ -426,6 +426,7 @@ class Database:
         header, data = self.get_publications_by_author()
         author_id = self.author_idx[author_name]
         coauthorData = self._get_collaborations(author_id,False)
+        first, last = self.get_numberoftime_author_appear(author_id)
         newHeader = list(header)
         newHeader.append("Number of Coauthor")
         data[author_id].append(len(coauthorData))
