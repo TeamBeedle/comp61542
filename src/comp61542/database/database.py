@@ -21,6 +21,14 @@ class Publication:
             self.year = -1
         self.authors = authors
 
+    def get_first_author_id(self):
+        if self.authors:
+            return self.authors[0]
+
+    def get_last_author_id(self):
+        if self.authors:
+            return self.authors[len(self.authors) - 1]
+
 class Author:
     def __init__(self, name):
         self.name = name
@@ -208,29 +216,41 @@ class Database:
             for i in range(len(astats)) ]
         return (header, data)
 
-
-    def get_publications_by_author(self):
-        header = ("Author", "Number of conference papers",
-            "Number of journals", "Number of books",
-            "Number of book chapers", "Total")
-
-        astats = [ [0, 0, 0, 0] for _ in range(len(self.authors)) ]
-        for p in self.publications:
-            for a in p.authors:
-                astats[a][p.pub_type] += 1
-
-        data = [ [self.authors[i].name] + astats[i] + [sum(astats[i])]
-            for i in range(len(astats)) ]
-        return (header, data)
-
-    def get_numberoftime_author_appear(self, authorName):
+    def get_numberoftime_author_appear(self, author):
         numOfTimeAppearFirst = 0
         numOfTimeAppearLast = 0
 
         for p in self.publications:
-            print p.authors[0] + "\n"
+            if author == p.get_last_author_id():
+                numOfTimeAppearLast += 1
+            elif author == p.get_first_author_id():
+                numOfTimeAppearFirst += 1
+
 
         return (numOfTimeAppearFirst, numOfTimeAppearLast)
+
+
+    def get_publications_by_author(self):
+        header = ("Author", "Number of conference papers",
+            "Number of journals", "Number of books",
+            "Number of book chapers", "Appear first", "Appear last", "Total")
+
+        astats = [ [0, 0, 0, 0, 0, 0] for _ in range(len(self.authors)) ]
+        for p in self.publications:
+            for a in p.authors:
+                astats[a][p.pub_type] += 1
+                # numberOfAppearance = self.get_numberoftime_author_appear(a)
+                # astats[a][4] = numberOfAppearance[0]
+                # astats[a][5] = numberOfAppearance[1]
+
+        numberOfAppearance = [[0, 0] for _ in range(len(astats))]
+        for i in range(len(numberOfAppearance)):
+            numberOfAppearance[i] = self.get_numberoftime_author_appear(i)
+
+        data = [ [self.authors[i].name] + astats[i] + numberOfAppearance[i] + [sum(astats[i])]
+            for i in range(len(astats)) ]
+
+        return (header, data)
 
     def get_average_authors_per_publication_by_year(self, av):
         header = ("Year", "Conference papers",
