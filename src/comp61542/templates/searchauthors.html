@@ -2,7 +2,7 @@
 {% block title %}{{ args.title }}{% endblock %}
 {% block content %}
 
-<form name="input" action="/coauthors" method="get" data-ajax="false" onSubmit="validateForm(this)">
+<form name="input" action="/searchauthors" method="get" data-ajax="false" onSubmit="validateForm(this)">
 Author Name: <input type="text" name="author_name" value="{{ args.author_name }}">
 <input type="submit" value="Submit">
 </form>
@@ -19,7 +19,7 @@ Author Name: <input type="text" name="author_name" value="{{ args.author_name }}
     </tr>
   </thead>
   <tbody>
-    {% for row in table.rows %}    
+    {% for row in table.rows %}
       <tr>
         {% for data_item in row %}
           <td>{{ data_item }}</td>

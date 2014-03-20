@@ -116,4 +116,31 @@ def showPublicationSummary(status):
         args["title"] = "Author by Year"
         args["data"] = db.get_author_totals_by_year()
 
+
+
     return render_template('statistics_details.html', args=args)
+
+@app.route("/searchauthors")
+def showSearchAuthor():
+    dataset = app.config['DATASET']
+    db = app.config['DATABASE']
+    args = {"dataset":dataset, "id":"searchauthor"}
+    args['title'] = "Search Author"
+    tables = []
+    headers = ["Author Name", "Conference Paper", "Journal", "Book", "Book Chapter", "All Publications", "Number of CoAuthors"]
+
+    author_name = "Sean Bechhofer"
+
+    if "author_name" in request.args:
+        author_name = request.args.get("author_name")
+
+    header, data = db.search_author(author_name)
+    tables.append({
+        "id":1,
+        "title":"Author Statistics Details",
+        "header":headers,
+        "rows":db.search_author(author_name)})
+
+    args['tables'] = tables
+
+    return render_template('searchauthors.html', args=args)
