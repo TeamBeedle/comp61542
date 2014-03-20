@@ -237,7 +237,7 @@ class Database:
         for p in self.publications:
             if author == p.get_last_author_id():
                 numOfTimeAppearLast += 1
-            elif author == p.get_first_author_id():
+            if author == p.get_first_author_id():
                 numOfTimeAppearFirst += 1
 
 
@@ -274,7 +274,7 @@ class Database:
                 astats[a][p.pub_type] += 1
                 if p.is_last(a):
                     fstats[a][1] += 1
-                elif p.is_first(a):
+                if p.is_first(a):
                     fstats[a][0] += 1
 
         data = [ [self.authors[i].name] + astats[i] + fstats[i] + [sum(astats[i])]
@@ -296,7 +296,7 @@ class Database:
             for a in p.authors:
                 if p.is_last(a):
                     fstats[a][1][p.pub_type] += 1
-                elif p.is_first(a):
+                if p.is_first(a):
                     fstats[a][0][p.pub_type] += 1
 
         data = [ [self.authors[i].name]  + fstats[i][0] + fstats[i][1]
