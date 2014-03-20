@@ -366,9 +366,11 @@ class Database:
 
         header, data = self.get_publications_by_author()
         author_id = self.author_idx[author_name]
-        len(data[author_id])
-        len(header)
-        return (header, data[author_id])
+        coauthorData = self._get_collaborations(author_id,False)
+        newHeader = list(header)
+        newHeader.append("Number of Coauthor")
+        data[author_id].append(len(coauthorData))
+        return (newHeader, data[author_id])
 
 class DocumentHandler(handler.ContentHandler):
     TITLE_TAGS = [ "sub", "sup", "i", "tt", "ref" ]

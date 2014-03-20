@@ -17,7 +17,7 @@ class TestSearch(unittest.TestCase):
         self.assertEqual(len(header), len(data),
             "header and data column size doesn't match")
         self.assertEqual(data[0],authorName,
-            "incorrect number of authors")
+            "incorrect author")
         self.assertEqual(data[3], 1,
             "incorrect number of books")
         self.assertEqual(data[6], 2,
