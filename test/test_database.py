@@ -103,14 +103,18 @@ class TestDatabase(unittest.TestCase):
 
     def test_get_publications_by_author(self):
         db = database.Database()
-        self.assertTrue(db.read(path.join(self.data_dir, "simple.xml")))
+        self.assertTrue(db.read(path.join(self.data_dir, "publications_small_sample.xml")))
         header, data = db.get_publications_by_author()
         self.assertEqual(len(header), len(data[0]),
             "header and data column size doesn't match")
-        self.assertEqual(len(data), 2,
+        self.assertEqual(len(data), 14,
             "incorrect number of authors")
         self.assertEqual(data[0][-1], 1,
             "incorrect total")
+        self.assertEqual(data[0][5], 1,
+            "incorrect first appearance")
+        self.assertEqual(data[0][6], 0,
+            "incorrect last appearance")
 
     def test_get_average_publications_per_author_by_year(self):
         db = database.Database()
@@ -159,6 +163,21 @@ class TestDatabase(unittest.TestCase):
             "incorrect year in result")
         self.assertEqual(data[0][1], 2,
             "incorrect number of authors in result")
+
+    def test_get_number_of_appearance_by_author(self):
+        db = database.Database()
+        self.assertTrue(db.read(path.join(self.data_dir, "publications_small_sample.xml")))
+        header, data = db.get_number_of_appearance_by_author()
+        self.assertEqual(len(header), len(data[0]),
+            "header and data column size doesn't match")
+        self.assertEqual(len(data), 14,
+            "incorrect number of rows")
+        self.assertEqual(sum(data[6][1:5]), 2,
+            "incorrect number of authors in result")
+        self.assertEqual(sum(data[6][5:9]), 0,
+            "incorrect number of authors in result")
+
+
 
 if __name__ == '__main__':
     unittest.main()
