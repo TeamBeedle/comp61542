@@ -122,3 +122,30 @@ def showPublicationSummary(status):
 
     return render_template('statistics_details.html', args=args)
 
+@app.route("/searchauthors")
+def showSearchAuthor():
+    dataset = app.config['DATASET']
+    db = app.config['DATABASE']
+    args = {"dataset":dataset, "id":"searchauthor"}
+    args['title'] = "Search Author"
+    tables = []
+    headers = ["Author Name", "Conference Paper", "Journal", "Book", "Book Chapter", "Number of times first Author", "Number of times last Author", "All Publications", "Number of CoAuthors"]
+
+    author_name = "Sean Bechhofer"
+
+    if "author_name" in request.args:
+        author_name = request.args.get("author_name")
+
+    header, data = db.search_author(author_name)
+    if data == None:
+        data = ()
+        headers = ["No author found"]
+    tables.append({
+        "id":1,
+        "title":"Author Statistics Details",
+        "header":headers,
+        "rows":data})
+
+    args['tables'] = tables
+
+    return render_template('searchauthors.html', args=args)
