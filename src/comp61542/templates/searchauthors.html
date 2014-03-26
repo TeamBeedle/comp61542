@@ -21,7 +21,7 @@ Author Name: <input type="text" name="author_name" value="{{ args.author_name }}
   <tbody>
     {% for data_item in table.rows %}
         <tr>
-            <th><a href="/authorStats/{{ data_item[0] }}">{{ data_item[0] }}</a></th>
+            <th><a href="/authorStats/{{ data_item }}">{{ data_item }}</a></th>
         </tr>
     {% endfor %}
   </tbody>
