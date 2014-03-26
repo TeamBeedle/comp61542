@@ -447,12 +447,30 @@ class Database:
         if self.author_idx.get(author_name) == None:
             return None, None
         author_id = self.author_idx[author_name]
-        coauthorData = self._get_collaborations(author_id,False)
-        first, last = self.get_numberoftime_author_appear(author_id)
+        coauthorData = self._get_collaborations(author_id, False)
         newHeader = list(header)
         newHeader.append("Number of Coauthor")
         data[author_id].append(len(coauthorData))
-        return (newHeader, data[author_id])
+        return (newHeader[0], data[author_id][0])
+
+    def search_authors(self, author_name):
+        header, data = self.get_publications_by_author()
+        author_id = []
+        results = []
+        for key in self.author_idx.keys():
+            if author_name.lower() in key.lower():
+                author_id.append(self.author_idx[key])
+        if len(author_id) == 0:
+            return None, None
+        #author_id = self.author_idx[author_name]
+        for i in range(len(author_id)):
+            coauthorData = self._get_collaborations(author_id[i], False)
+            data[author_id[i]].append(len(coauthorData))
+            results.append(data[author_id[i]])
+        newHeader = list(header)
+        newHeader.append("Number of Coauthor")
+        return (newHeader, results)
+
 
 class DocumentHandler(handler.ContentHandler):
     TITLE_TAGS = [ "sub", "sup", "i", "tt", "ref" ]

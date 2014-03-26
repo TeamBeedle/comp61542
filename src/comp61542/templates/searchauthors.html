@@ -19,13 +19,13 @@ Author Name: <input type="text" name="author_name" value="{{ args.author_name }}
     </tr>
   </thead>
   <tbody>
-
-      <tr>
+    <tr>
         {% for data_item in table.rows %}
-          <td>{{ data_item }}</td>
+            <th>
+                <a href="/authorStats/{{ data_item[0] }}">{{ data_item[0] }}</a>
+            </th>
         {% endfor %}
-      </tr>
-
+    </tr>
   </tbody>
 </table>
 <br/>
