@@ -489,6 +489,20 @@ class Database:
         newData.append(sum(newData[1:5]))
         return newData
 
+    def get_last_author_stats(self, author_name):
+
+        header, data = self.get_number_of_appearance_by_author()
+        if self.author_idx.get(author_name) == None:
+            return None, None
+        author_id = self.author_idx[author_name]
+        data = data[author_id]
+        newData = []
+        newData.append(data[0])
+        newData.append(data[5:9])
+        newData.append(sum(newData[5:9]))
+        return newData
+
+
 
 class DocumentHandler(handler.ContentHandler):
     TITLE_TAGS = [ "sub", "sup", "i", "tt", "ref" ]
