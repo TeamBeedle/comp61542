@@ -140,7 +140,7 @@ def showSearchAuthor():
     header, data, distanceFirstname, distanceLastname = db.search_authors(author_name)
     dataWithDistance = []
     if len(data) == 1:
-        return showAuthorStats(author_name)
+        return showAuthorStats(data[0])
 
     if data == None:
         data = ()
@@ -173,7 +173,7 @@ def showAuthorStats(author_name):
         "id":1,
         "title":"Author general statistics",
         "header":["Author Name", "Number of conference papers", "Number of journals", "Number of books", "Number of book chapters", "Total", "Number of Coauthors"],
-        "rows": [""]})
+        "rows": db.get_all_author_stats(author_name)})
     tables.append({
         "id":2,
         "title":"Author first appearances",
