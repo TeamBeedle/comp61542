@@ -485,6 +485,17 @@ class Database:
         newHeader = ["Author name"]
         return (newHeader, authors, distanceLastname, distanceFirstname)
 
+    def get_first_author_stats(self, author_name):
+
+        header, data = self.get_number_of_appearance_by_author()
+        if self.author_idx.get(author_name) == None:
+            return None, None
+        author_id = self.author_idx[author_name]
+        data = data[author_id]
+        newData = data[:5]
+        newData.append(sum(newData[1:5]))
+        return newData
+
 
 class DocumentHandler(handler.ContentHandler):
     TITLE_TAGS = [ "sub", "sup", "i", "tt", "ref" ]
