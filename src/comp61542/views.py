@@ -129,14 +129,19 @@ def showSearchAuthor():
     args = {"dataset":dataset, "id":"searchauthor"}
     args['title'] = "Search Author"
     tables = []
-    headers = ["Author Name", "Conference Paper", "Journal", "Book", "Book Chapter", "Number of Times First Author", "Number of Times Last Author", "Number of Times Sole Author", "All Publications", "Number of CoAuthors"]
+    headers = ["Author Name"]
+    #, "Conference Paper", "Journal", "Book", "Book Chapter", "Number of times first Author", "Number of times last Author", "All Publications", "Number of CoAuthors"]
 
-    author_name = "Sean Bechhofer"
+    author_name = ""
 
     if "author_name" in request.args:
         author_name = request.args.get("author_name")
 
-    header, data = db.search_author(author_name)
+    header, data = db.search_authors(author_name)
+
+    if len(data) == 1:
+        return showAuthorStats(author_name)
+
     if data == None:
         data = ()
         headers = ["No author found"]
@@ -149,3 +154,7 @@ def showSearchAuthor():
     args['tables'] = tables
 
     return render_template('searchauthors.html', args=args)
+
+@app.route("/authorStats/<author_name>")
+def showAuthorStats(author_name):
+    pass
