@@ -167,24 +167,24 @@ def showAuthorStats(author_name):
 
     tables.append({
         "id":1,
-        "title":"Author Statistics Details",
+        "title":"Author general statistics",
         "header":["Author Name", "Number of conference papers", "Number of journals", "Number of books", "Number of book chapters", "Total", "Number of Coauthors"],
-        "rows": data})
+        "rows": [""]})
     tables.append({
         "id":2,
-        "title":"Author Statistics Details",
+        "title":"Author first appearances",
         "header":["Author Name", "Appear first in Conference Paper", "Appear first in Journal", "Appear first in Book", "Appear first in Book Chapter", "Total"],
-        "rows": data})
+        "rows": db.get_first_author_stats(author_name)})
     tables.append({
         "id":3,
-        "title":"Author Statistics Details",
+        "title":"Author last appearances",
         "header":["Author Name", "Appear last in Conference Paper", "Appear last in Journal", "Appear last in Book", "Appear last in Book Chapter", "Total"],
-        "rows": data})
+        "rows": db.get_last_author_stats(author_name)})
     tables.append({
         "id":4,
-        "title":"Author Statistics Details",
+        "title":"Sole author statistics",
         "header":["Author Name", "Sole author in Conference Paper", "Sole author in Journal", "Sole author in Book", "Sole author in Book Chapter", "Total"],
-        "rows": data})
+        "rows": db.get_sole_author_stats(author_name)})
 
     args['tables'] = tables
 
