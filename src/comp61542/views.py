@@ -129,7 +129,7 @@ def showSearchAuthor():
     args = {"dataset":dataset, "id":"searchauthor"}
     args['title'] = "Search Author"
     tables = []
-    headers = ["Author Name", "Conference Paper", "Journal", "Book", "Book Chapter", "Number of times first Author", "Number of times last Author", "All Publications", "Number of CoAuthors"]
+    headers = ["Author Name", "Conference Paper", "Journal", "Book", "Book Chapter", "Number of Times First Author", "Number of Times Last Author", "Number of Times Sole Author", "All Publications", "Number of CoAuthors"]
 
     author_name = "Sean Bechhofer"
 
