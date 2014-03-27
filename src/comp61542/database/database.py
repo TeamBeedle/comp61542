@@ -30,7 +30,7 @@ class Publication:
             return self.authors[len(self.authors) - 1]
 
     def is_sole(self, author):
-        if self.is_first(self, author) and self.is_last(self, author):
+        if self.is_first(author) and self.is_last(author):
             return True
         else:
             return False
@@ -271,10 +271,10 @@ class Database:
         header = ("Author", "Number of conference papers",
             "Number of journals", "Number of books",
             "Number of book chapters", "Number of Times First Author",
-            "Number of Times Last Author", "Total")
+            "Number of Times Last Author", "Number of Times Sole Author", "Total")
 
         astats = [ [0, 0, 0, 0] for _ in range(len(self.authors)) ]
-        fstats = [ [0, 0] for _ in range(len(self.authors)) ]
+        fstats = [ [0, 0, 0] for _ in range(len(self.authors)) ]
         for p in self.publications:
             for a in p.authors:
                 astats[a][p.pub_type] += 1
@@ -282,6 +282,9 @@ class Database:
                     fstats[a][1] += 1
                 if p.is_first(a):
                     fstats[a][0] += 1
+                if p.is_sole(a):
+                    fstats[a][2] += 1
+
 
         data = [ [self.authors[i].name] + astats[i] + fstats[i] + [sum(astats[i])]
             for i in range(len(astats)) ]
