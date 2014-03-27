@@ -486,6 +486,20 @@ class Database:
         newHeader = ["Author name"]
         return (newHeader, authors, distanceLastname, distanceFirstname)
 
+    def get_all_author_stats(self, author_name):
+        header, data = self.get_publications_by_author()
+        if self.author_idx.get(author_name) == None:
+            return None, None
+        author_id = self.author_idx[author_name]
+        coauthorData = self._get_collaborations(author_id, False)
+        newHeader = list(header)
+        newHeader.append("Number of Coauthor")
+        data = data[author_id]
+        newData = data[:5]
+        newData.append(data[8])
+        newData.append(len(coauthorData))
+        return newData
+
     def get_first_author_stats(self, author_name):
 
         header, data = self.get_number_of_appearance_by_author()
