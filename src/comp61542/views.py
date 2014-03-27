@@ -161,4 +161,35 @@ def showSearchAuthor():
 
 @app.route("/authorStats/<author_name>")
 def showAuthorStats(author_name):
-    pass
+    dataset = app.config['DATASET']
+    db = app.config['DATABASE']
+    args = {"dataset":dataset, "id":"searchauthor"}
+    args['title'] = "Search Author"
+    tables = []
+
+    data = db.search_authors(author_name)
+
+    tables.append({
+        "id":1,
+        "title":"Author Statistics Details",
+        "header":["Author Name", "Number of conference papers", "Number of journals", "Number of books", "Number of book chapters", "Total", "Number of Coauthors"],
+        "rows": data})
+    tables.append({
+        "id":2,
+        "title":"Author Statistics Details",
+        "header":["Author Name", "Appear first in Conference Paper", "Appear first in Journal", "Appear first in Book", "Appear first in Book Chapter", "Total"],
+        "rows": data})
+    tables.append({
+        "id":3,
+        "title":"Author Statistics Details",
+        "header":["Author Name", "Appear last in Conference Paper", "Appear last in Journal", "Appear last in Book", "Appear last in Book Chapter", "Total"],
+        "rows": data})
+    tables.append({
+        "id":4,
+        "title":"Author Statistics Details",
+        "header":["Author Name", "Sole author in Conference Paper", "Sole author in Journal", "Sole author in Book", "Sole author in Book Chapter", "Total"],
+        "rows": data})
+
+    args['tables'] = tables
+
+    return render_template('authorStats.html', args=args)
