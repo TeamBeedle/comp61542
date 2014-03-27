@@ -29,6 +29,12 @@ class Publication:
         if self.authors:
             return self.authors[len(self.authors) - 1]
 
+    def is_sole(self, author):
+        if self.is_first(author) and len(self.authors) == 1:
+            return True
+        else:
+            return False
+
     def is_first(self, author):
         if self.authors[0] == author:
            return True
@@ -265,10 +271,10 @@ class Database:
         header = ("Author", "Number of conference papers",
             "Number of journals", "Number of books",
             "Number of book chapters", "Number of Times First Author",
-            "Number of Times Last Author", "Total")
+            "Number of Times Last Author", "Number of Times Sole Author", "Total")
 
         astats = [ [0, 0, 0, 0] for _ in range(len(self.authors)) ]
-        fstats = [ [0, 0] for _ in range(len(self.authors)) ]
+        fstats = [ [0, 0, 0] for _ in range(len(self.authors)) ]
         for p in self.publications:
             for a in p.authors:
                 astats[a][p.pub_type] += 1
@@ -276,6 +282,9 @@ class Database:
                     fstats[a][1] += 1
                 if p.is_first(a):
                     fstats[a][0] += 1
+                if p.is_sole(a):
+                    fstats[a][2] += 1
+
 
         data = [ [self.authors[i].name] + astats[i] + fstats[i] + [sum(astats[i])]
             for i in range(len(astats)) ]
@@ -289,17 +298,23 @@ class Database:
                             "Appear last in Conference Paper",
                             "Appear last in Journal",
                             "Appear last in Book",
-                            "Appear last in Book Chapter",)
+                            "Appear last in Book Chapter",
+                            "Appear sole in Conference Paper",
+                            "Appear sole in Journal",
+                            "Appear sole in Book",
+                            "Appear sole in Book Chapter",)
 
-        fstats = [ [[0, 0, 0, 0], [0, 0, 0, 0]] for _ in range(len(self.authors)) ]
+        fstats = [ [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]] for _ in range(len(self.authors)) ]
         for p in self.publications:
             for a in p.authors:
-                if p.is_last(a):
+                if p.is_sole(a):
+                    fstats[a][2][p.pub_type] += 1
+                elif p.is_last(a):
                     fstats[a][1][p.pub_type] += 1
-                if p.is_first(a):
+                elif p.is_first(a):
                     fstats[a][0][p.pub_type] += 1
 
-        data = [ [self.authors[i].name]  + fstats[i][0] + fstats[i][1]
+        data = [ [self.authors[i].name]  + fstats[i][0] + fstats[i][1] + fstats[i][2]
             for i in range(len(fstats)) ]
         return (header, data)
 

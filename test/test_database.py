@@ -115,6 +115,8 @@ class TestDatabase(unittest.TestCase):
             "incorrect first appearance")
         self.assertEqual(data[0][6], 0,
             "incorrect last appearance")
+        self.assertEqual(data[0][7], 0,
+            "incorrect sole appearance")
 
     def test_get_average_publications_per_author_by_year(self):
         db = database.Database()
@@ -173,9 +175,11 @@ class TestDatabase(unittest.TestCase):
         self.assertEqual(len(data), 14,
             "incorrect number of rows")
         self.assertEqual(sum(data[6][1:5]), 2,
-            "incorrect number of authors in result")
+            "incorrect number of first authors in result")
         self.assertEqual(sum(data[6][5:9]), 0,
-            "incorrect number of authors in result")
+            "incorrect number of last authors in result")
+        self.assertEqual(sum(data[6][9:13]), 0,
+            "incorrect number of sole authors in result")
 
 
 
