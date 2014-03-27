@@ -52,7 +52,8 @@ class Publication:
 
 class Author:
     def __init__(self, name):
-        self.name = name
+        d_name = " ".join(name.rsplit(None,1)[::-1])
+        self.name = d_name
 
 class Stat:
     STR = ["Mean", "Median", "Mode"]
