@@ -521,7 +521,7 @@ class Database:
         newData = []
         newData.append(data[0])
         newData += data[5:9]
-        newData.append(sum(newData[5:9]))
+        newData.append(sum(data[5:9]))
         return newData
 
     def get_sole_author_stats(self, author_name):

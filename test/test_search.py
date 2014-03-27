@@ -98,3 +98,13 @@ class TestSearch(unittest.TestCase):
             "incorrect number of book chapters")
         self.assertEqual(data[5], 3,
             "incorrect number of total")
+
+    def test_search_authors(self):
+        authorName = "er"
+        db = database.Database()
+        self.assertTrue(db.read(path.join(self.data_dir, "publications_small_sample.xml")))
+        header, data = db.search_authors(authorName)
+        self.assertEqual(len(data), 7,
+            "incorrect number of authors")
+        self.assertEqual(data[5], "Sean Bechhofer",
+            "incorrect author")
