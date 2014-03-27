@@ -132,12 +132,16 @@ def showSearchAuthor():
     headers = ["Author Name"]
     #, "Conference Paper", "Journal", "Book", "Book Chapter", "Number of times first Author", "Number of times last Author", "All Publications", "Number of CoAuthors"]
 
-    author_name = "Sean Bechhofer"
+    author_name = ""
 
     if "author_name" in request.args:
         author_name = request.args.get("author_name")
 
     header, data = db.search_authors(author_name)
+
+    if len(data) == 1:
+        return showAuthorStats(author_name)
+
     if data == None:
         data = ()
         headers = ["No author found"]
