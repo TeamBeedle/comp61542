@@ -29,6 +29,12 @@ class Publication:
         if self.authors:
             return self.authors[len(self.authors) - 1]
 
+    def is_sole(self, author):
+        if self.is_first(self, author) and self.is_last(self, author):
+            return True
+        else:
+            return False
+
     def is_first(self, author):
         if self.authors[0] == author:
            return True
