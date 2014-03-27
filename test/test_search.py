@@ -26,3 +26,21 @@ class TestSearch(unittest.TestCase):
             "incorrect number of times he appears last")
         self.assertEqual(data[8], 2,
             "incorrect number of coauthors")
+
+    def test_search_first_author(self):
+        authorName = "Stefano Ceri"
+        db = database.Database()
+        self.assertTrue(db.read(path.join(self.data_dir, "publications_small_sample.xml")))
+        header, data = db.get_first_author_stats(authorName)
+        self.assertEqual(len(header), len(data),
+            "header and data column size doesn't match")
+        self.assertEqual(data[0],authorName,
+            "incorrect author")
+        self.assertEqual(data[3], 1,
+            "incorrect number of books")
+        self.assertEqual(data[5], 2,
+            "incorrect number of times he appears first")
+        self.assertEqual(data[6], 0,
+            "incorrect number of times he appears last")
+        self.assertEqual(data[8], 2,
+            "incorrect number of coauthors")
