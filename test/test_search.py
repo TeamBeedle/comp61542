@@ -31,7 +31,7 @@ class TestSearch(unittest.TestCase):
         authorName = "Stefano Ceri"
         db = database.Database()
         self.assertTrue(db.read(path.join(self.data_dir, "publications_small_sample.xml")))
-        header, data = db.get_first_author_stats(authorName)
+        header, data = db.get_last_author_stats(authorName)
         self.assertEqual(len(header), len(data),
             "header and data column size doesn't match")
         self.assertEqual(data[0],authorName,
