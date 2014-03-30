@@ -129,7 +129,7 @@ def showSearchAuthor():
     args = {"dataset":dataset, "id":"searchauthor"}
     args['title'] = "Search Author"
     tables = []
-    headers = ["Author Name", "Distancefirst", "Distancelast"]
+    headers = ["Author Name"]
     #, "Conference Paper", "Journal", "Book", "Book Chapter", "Number of times first Author", "Number of times last Author", "All Publications", "Number of CoAuthors"]
 
     author_name = ""
@@ -138,7 +138,7 @@ def showSearchAuthor():
         author_name = request.args.get("author_name")
 
     header, data, distanceFirstname, distanceLastname = db.search_authors(author_name)
-    dataWithDistance = []
+    #dataWithDistance = []
     if len(data) == 1:
         return showAuthorStats(data[0])
 
@@ -146,14 +146,14 @@ def showSearchAuthor():
         data = ()
         headers = ["No author found"]
 
-    for i in range(len(data)):
-        dataWithDistance.append([data[i], distanceFirstname[i], distanceLastname[i]])
+    """for i in range(len(data)):
+        dataWithDistance.append([data[i], distanceFirstname[i], distanceLastname[i]])"""
     # dataWithDistance = [data, distanceFirstname, distanceLastname]
     tables.append({
         "id":1,
         "title":"Author Statistics Details",
         "header":headers,
-        "rows": dataWithDistance})
+        "rows": data})
 
     args['tables'] = tables
 
