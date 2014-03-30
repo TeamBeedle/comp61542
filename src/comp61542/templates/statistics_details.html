@@ -25,7 +25,11 @@ tsRegister();
   {% for row in args.data[1] %}
     <tr>
     {% for data_item in row %}
-      <td>{{ data_item }}</td>
+        {% if data_item == row[0] and (args.title == "Author Publication" or args.title == "Appearance") %}
+            <td><a href="/authorStats/{{ data_item }}">{{ data_item }}</a></td>
+        {% else %}
+            <td> {{ data_item }} </td>
+        {% endif %}
     {% endfor %}
     </tr>
   {% endfor %}
