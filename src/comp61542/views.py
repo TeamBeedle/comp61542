@@ -137,7 +137,7 @@ def showSearchAuthor():
     if "author_name" in request.args:
         author_name = request.args.get("author_name")
 
-    header, data, distanceFirstname, distanceLastname = db.search_authors(author_name)
+    header, data = db.search_authors(author_name)
     #dataWithDistance = []
     if len(data) == 1:
         return showAuthorStats(data[0])
