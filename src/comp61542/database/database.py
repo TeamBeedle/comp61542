@@ -1,6 +1,7 @@
 from comp61542.statistics import average
 import itertools
 import numpy as np
+import difflib
 from xml.sax import handler, make_parser, SAXException
 
 PublicationType = [
@@ -470,13 +471,19 @@ class Database:
 
     def search_authors(self, author_name):
         authors = []
+        distanceLastname = []
+        distanceFirstname = []
         for key in self.author_idx.keys():
             if author_name.lower() in key.lower():
+                firstname = key.rsplit(None,1)[0]
+                lastname = key.rsplit(None,1)[::-1][0]
+                distanceLastname.append(int(round(difflib.SequenceMatcher(None, author_name.lower(), lastname.lower()).ratio() * 100)))
+                distanceFirstname.append(int(round(difflib.SequenceMatcher(None, author_name.lower(), firstname.lower()).ratio() * 100)))
                 authors.append(key)
         if len(authors) == 0:
             return None, None
         newHeader = ["Author name"]
-        return (newHeader, authors)
+        return (newHeader, authors, distanceLastname, distanceFirstname)
 
     def get_all_author_stats(self, author_name):
         header, data = self.get_publications_by_author()
