@@ -9,13 +9,6 @@ Author Name: <input type="text" name="author_name" value="{{ args.author_name }}
 
 <h1>{{ args.title }}</h1>
 
-<script type="text/javascript">
-<!--
-var TSort_Data = new Array ('author_search_table', 's', 'i', 'i');
-tsRegister();
-// -->
-</script>
-
 {% for table in args.tables %}
 <h2>{{ table.title }}</h2>
 <table id = "author_search_table">
@@ -27,13 +20,9 @@ tsRegister();
     </tr>
   </thead>
   <tbody>
-    {% for row in table.rows %}
+    {% for data_item in table.rows %}
         <tr>
-            {% for data_item in row %}
-            <td>
-                <a href="/authorStats/{{ data_item }}">{{ data_item }}</a>
-            </td>
-            {% endfor %}
+            <th><a href="/authorStats/{{ data_item }}">{{ data_item }}</a></th>
         </tr>
     {% endfor %}
   </tbody>
