@@ -493,6 +493,9 @@ class Database:
         nameStartsWithWord.sort(key=lambda x: (-x[2], x[0]), reverse=False)
         wordBetween.sort(key=lambda x: (-x[1], x[0]), reverse=False)
         authors = surnameStartsWithWord + nameStartsWithWord + wordBetween
+        for item in authors:
+            del item[2]
+            del item[1]
         if len(authors) == 0:
             return None, None
         return (newHeader, authors)
