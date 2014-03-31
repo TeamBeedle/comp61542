@@ -237,18 +237,18 @@ class Database:
             for i in range(len(astats)) ]
         return (header, data)
 
-    def get_numberoftime_author_appear(self, author):
-        numOfTimeAppearFirst = 0
-        numOfTimeAppearLast = 0
-
-        for p in self.publications:
-            if author == p.get_last_author_id():
-                numOfTimeAppearLast += 1
-            if author == p.get_first_author_id():
-                numOfTimeAppearFirst += 1
-
-
-        return (numOfTimeAppearFirst, numOfTimeAppearLast)
+    # def get_numberoftime_author_appear(self, author):
+    #     numOfTimeAppearFirst = 0
+    #     numOfTimeAppearLast = 0
+    #
+    #     for p in self.publications:
+    #         if author == p.get_last_author_id():
+    #             numOfTimeAppearLast += 1
+    #         if author == p.get_first_author_id():
+    #             numOfTimeAppearFirst += 1
+    #
+    #
+    #     return (numOfTimeAppearFirst, numOfTimeAppearLast)
 
 
     # def get_publications_by_author(self):
@@ -279,13 +279,12 @@ class Database:
         for p in self.publications:
             for a in p.authors:
                 astats[a][p.pub_type] += 1
-                if p.is_last(a):
-                    fstats[a][1] += 1
-                if p.is_first(a):
-                    fstats[a][0] += 1
                 if p.is_sole(a):
                     fstats[a][2] += 1
-
+                elif p.is_last(a):
+                    fstats[a][1] += 1
+                elif p.is_first(a):
+                    fstats[a][0] += 1
 
         data = [ [self.authors[i].name] + astats[i] + fstats[i] + [sum(astats[i])]
             for i in range(len(astats)) ]
