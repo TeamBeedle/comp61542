@@ -52,7 +52,7 @@ class Publication:
 
 class Author:
     def __init__(self, name):
-        self.name = " ".join(name.rsplit(None,1)[::-1])
+        self.name = name
 
 class Stat:
     STR = ["Mean", "Median", "Mode"]
@@ -476,8 +476,8 @@ class Database:
         wordBetween = []
         for key in self.author_idx.keys():
             if author_name.lower() in key.lower():
-                firstname = key.rsplit(None,1)[0]
-                lastname = key.rsplit(None,1)[::-1][0]
+                lastname = key.rsplit(None,1)[0]
+                firstname = key.rsplit(None,1)[::-1][0]
                 distanceLastname = int(round(difflib.SequenceMatcher(None, author_name.lower(), lastname.lower()).ratio() * 100))
                 distanceFirstname = int(round(difflib.SequenceMatcher(None, author_name.lower(), firstname.lower()).ratio() * 100))
                 author_details = [key, distanceLastname, distanceFirstname]
@@ -590,7 +590,7 @@ class DocumentHandler(handler.ContentHandler):
             return
         d = self.chrs.strip()
         if self.tag == "author":
-            self.authors.append(d)
+            self.authors.append(" ".join(d.rsplit(None,1)[::-1]))
         elif self.tag == "title":
             self.title = d
         elif self.tag == "year":

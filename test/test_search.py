@@ -46,11 +46,11 @@ class TestSearch(unittest.TestCase):
             "incorrect number of times he appears first in total")
 
     def test_search_last_author(self):
-        authorName = "Stefano Ceri"
+        authorName = "Ceri Stefano"
         db = database.Database()
         self.assertTrue(db.read(path.join(self.data_dir, "publications_small_sample.xml")))
         data = db.get_last_author_stats(authorName)
-        self.assertEqual(data[0],authorName,
+        self.assertEqual(data[0], authorName,
             "incorrect author")
         self.assertEqual(data[1], 0,
             "incorrect number of times he appears first in conference paper")
@@ -106,5 +106,5 @@ class TestSearch(unittest.TestCase):
         header, data = db.search_authors(authorName)
         self.assertEqual(len(data), 7,
             "incorrect number of authors")
-        self.assertEqual(data[5], "Sean Bechhofer",
+        self.assertEqual(data[3][0], "Bechhofer Sean",
             "incorrect author")

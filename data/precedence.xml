@@ -1,16 +1,16 @@
 <dblp>
-<inproceedings>
-    <author>Sam	Alice</author>
+<book>
+    <author>Sam Alice</author>
     <title>TITLE</title>
     <year>9999</year>
-</inproceedings>
-    <inproceedings>
+</book>
+<inproceedings>
     <author>Samuel Alice</author>
     <title>TITLE</title>
     <year>9999</year>
 </inproceedings>
     <inproceedings>
-    <author>Sam	Brian</author>
+    <author>Sam Brian</author>
     <title>TITLE</title>
     <year>9999</year>
 </inproceedings>
