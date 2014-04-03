@@ -1,7 +1,8 @@
+from __future__ import generators
+
+
 __author__ = 'Stefan'
 # code from: http://code.activestate.com/recipes/117228/
-
-from __future__ import generators
 
 class priorityDictionary(dict):
     def __init__(self):

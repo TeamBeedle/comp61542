@@ -195,3 +195,10 @@ def showAuthorStats(author_name):
     args['tables'] = tables
 
     return render_template('authorStats.html', args=args)
+
+#to test dijkstras, not a feature yet (or ever)
+@app.route("/testdijkstra")
+def dijkstra():
+    db = app.config['DATABASE']
+    print db.get_author_distances("Stefano Ceri")
+    # return render_template(statist)
