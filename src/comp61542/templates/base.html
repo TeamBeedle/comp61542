@@ -2,23 +2,93 @@
 
 <html>
 <script src="{{ url_for('static', filename='gs_sortable.js') }}" type="text/javascript"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='scripts//jquery-1.4.1.min.js') }}"></script>
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/layout.css') }}" type="text/css" />
   <head>
     <title>{% block title %}{% endblock %}</title>
   </head>
 
-  <body>
+  <body id="top">
+    <div class="wrapper">
+  <div id="header">
+    <h1><a href="/"><img src="http://assets.manchester.ac.uk/logos/university-1.png"/></a></h1>
+    <p>Research Collaborations in the School of Computer Science</p>
+  </div>
+</div>
+<div class="wrapper">
+  <div id="topbar">
+    <div class="fl_right">
+        <fieldset>
+          <legend>Site Search</legend>
+            <form name="input" action="/searchauthors" method="get" data-ajax="false" onSubmit="validateForm(this)">
+                <input type="text" name="author_name" value="{{ args.author_name }}">
+                <input type="submit" name="go" id="go" value="Search">
+            </form>
+        </fieldset>
+    </div>
+    <br class="clear" />
+  </div>
+</div>
+
+
+    <div class="wrapper">
+  <div id="topnav">
+    <ul class="nav">
+      <li><a href="/">Homepage</a></li>
+         <li><a href="#">Publications</a>
+        <ul>
+          <li><a href="/statisticsdetails/publication_summary">Summary</a></li>
+          <li><a href="/statisticsdetails/publication_author">By Author</a></li>
+          <li><a href="/statisticsdetails/publication_year">By Year</a></li>
+        </ul>
+      <li><a href="/statisticsdetails/author_year">Author by Year</a></li>
+        <li><a href="/statisticsdetails/appearance_author">Appearance by Author</a></li>
+  <li><a href="/averages">Averaged Year Data</a></li>
+  <li><a href="/coauthors">Co-Authors</a></li>
+  <li><a href="/distance">Degree of Separation</a></li>
+  <li><a href="/searchauthors">Search Author</a></li>
+      <li class="last"><a href="gallery.html">About</a></li>
+
+      </li>
+    </ul>
+    <div class="clear"></div>
+  </div>
+</div>
+
+
     <div id="page">
-      <div id="header">
-        <h1>COMP61542: {{ args.dataset }}</h1>
-
-        <div id="navigation">
-          <a href="/">Home</a>
-        </div>
-      </div>
-
       <div id="content">
         {% block content %}{% endblock %}
       </div>
     </div>
+  <script type="text/javascript" src="{{ url_for('static', filename='scripts/superfish.js') }}"></script>
+<script type="text/javascript">
+jQuery(function () {
+    jQuery('ul.nav').superfish();
+});
+</script>
+
+  <script>
+function validateForm(form){
+  author_name = form["author_name"].value;
+
+  if (author_name.contains([0-9]) || author_name.trim() == ""){
+    alert("Invalid author name");
+    return false;
+  }
+  return true;
+}
+</script>
+
+
+  <div class="wrapper">
+
+  <div id="copyright">
+    <p class="fl_left">Database: {{ args.dataset }}</p><br>
+    <p class="fl_left">Copyright &copy; 2011 - All Rights Reserved - Beelde Team</p>
+    <p class="fl_right">Template by <a href="http://www.os-templates.com/" title="Free Website Templates">OS Templates</a></p>
+    <br class="clear" />
+  </div>
+</div>
   </body>
 </html>
