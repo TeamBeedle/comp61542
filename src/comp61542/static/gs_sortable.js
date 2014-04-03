@@ -19,7 +19,7 @@ function TSort_StoreDef () {
 //	this.last_sorted = -1;
 	this.history = [];
 	this.sort_keys = [];
-	this.sort_colors = [ '#FF0000', '#800080', '#0000FF' ];
+	this.sort_colors = [ '#FFFFFF', '#FFFFFF', '#FFFFFF' ];
 };
 
 function tsInitOnload ()
@@ -347,6 +347,7 @@ function tsDraw(p_id, p_table)
 		icon = TSort_Store.icons[state];
 		obj.innerHTML = (icon.match(/</))? icon:
 			'<font color="' + TSort_Store.sort_colors[i] + '">' + icon + '</font>';
+
 		sorting.push(id + ((state)? 'D': 'A'));
 	}
 
