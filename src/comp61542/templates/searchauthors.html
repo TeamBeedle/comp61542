@@ -2,12 +2,13 @@
 {% block title %}{{ args.title }}{% endblock %}
 {% block content %}
 
+<h1>{{ args.title }}</h1>
+<h4>{{ args.description }}</h4>
+
 <form name="input" action="/searchauthors" method="get" data-ajax="false" onSubmit="validateForm(this)">
 Author Name: <input type="text" name="author_name" value="{{ args.author_name }}">
 <input type="submit" value="Submit">
 </form>
-
-<h1>{{ args.title }}</h1>
 
 {% for table in args.tables %}
 <h2>{{ table.title }}</h2>

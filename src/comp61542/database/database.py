@@ -3,6 +3,8 @@ import itertools
 import numpy as np
 import difflib
 from xml.sax import handler, make_parser, SAXException
+from priodict import priorityDictionary
+
 
 PublicationType = [
     "Conference Paper", "Journal", "Book", "Book Chapter"]
@@ -65,6 +67,8 @@ class Database:
     def read(self, filename):
         self.publications = []
         self.authors = []
+        self.coauthors = {}
+        self.distances = {}
         self.author_idx = {}
         self.min_year = None
         self.max_year = None
@@ -87,13 +91,15 @@ class Database:
             if self.max_year == None or p.year > self.max_year:
                 self.max_year = p.year
 
+        self.distances = [[999 for x in range(len(self.authors))] for x in range(len(self.authors))]
+
         return valid
 
     def get_all_authors(self):
         return self.author_idx.keys()
 
     def get_coauthor_data(self, start_year, end_year, pub_type):
-        coauthors = {}
+        coauthors = self.coauthors
         for p in self.publications:
             if ((start_year == None or p.year >= start_year) and
                 (end_year == None or p.year <= end_year) and
@@ -444,6 +450,12 @@ class Database:
         return [ (self.authors[key].name, data[key])
             for key in data ]
 
+    def get_coauthor_ids(self, name):
+        author_id = self.author_idx[name]
+        data = self._get_collaborations(author_id, True)
+        return [ (self.authors[key], data[key])
+            for key in data ]
+
     def get_network_data(self):
         na = len(self.authors)
 
@@ -628,6 +640,38 @@ class Database:
         newData += data[9:]
         newData.append(sum(data[9:]))
         return newData
+
+    # #gets distance from this author to all the other authors
+    # def get_author_distances(self, author_name):
+    #     # author_id = self.author_idx[author_name]
+    #     author_id = 0
+    #     self.distances[author_id] = self.Dijkstra(author_id)
+    #     #self.distances[author] = self.Dijkstra(self, author)
+    #
+    #     return self.distances[author_id]
+    #
+    #
+    # def Dijkstra(self,start,end=None):
+    #
+    #     #G = self.distances
+    #     D = [999 for _ in range(len(self.authors))]
+    #     P = self._get_collaborations(start, False).keys()
+    #     Q = priorityDictionary()
+    #     Q[start] = 0
+    #
+    #     for v in Q:
+    #         D[v] = Q[v]
+    #         if v == end: break
+    #
+    #         for w in self.distances[v]:
+    #             vwLength = D[v] + self.distances[v][w]
+    #             if w in D:
+    #                 if vwLength < D[w]:
+    #                     raise ValueError, "Dijkstra Error: Found better in already final Vertex! "
+    #             elif w not in Q or vwLength < Q[w]:
+    #                 Q[w] = vwLength
+    #                 P[w] = v
+    #     return D
 
 
 class DocumentHandler(handler.ContentHandler):

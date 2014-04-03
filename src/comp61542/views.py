@@ -18,6 +18,7 @@ def showAverages():
     db = app.config['DATABASE']
     args = {"dataset":dataset, "id":"averages"}
     args['title'] = "Averaged Data"
+    args['description'] = "Average statistics for publications, authors and years!"
     tables = []
     headers = ["Average", "Conference Paper", "Journal", "Book", "Book Chapter", "All Publications"]
     averages = [ database.Stat.MEAN, database.Stat.MEDIAN, database.Stat.MODE ]
@@ -64,6 +65,8 @@ def showCoAuthors():
     PUB_TYPES = ["Conference Papers", "Journals", "Books", "Book Chapters", "All Publications"]
     args = {"dataset":dataset, "id":"coauthors"}
     args["title"] = "Co-Authors"
+    args['description'] = "List all co-authors of an author, between a given time in a given publication type!"
+
 
     start_year = db.min_year
     if "start_year" in request.args:
@@ -128,6 +131,7 @@ def showSearchAuthor():
     db = app.config['DATABASE']
     args = {"dataset":dataset, "id":"searchauthor"}
     args['title'] = "Search Author"
+    args['description'] = "Input the author's name you want to search!"
     tables = []
     headers = ["Author Name"]
     #, "Conference Paper", "Journal", "Book", "Book Chapter", "Number of times first Author", "Number of times last Author", "All Publications", "Number of CoAuthors"]
@@ -169,6 +173,7 @@ def showAuthorStats(author_name):
     db = app.config['DATABASE']
     args = {"dataset":dataset, "id":"searchauthor"}
     args['title'] = "Search Author"
+    args['description'] = "Results:"
     tables = []
 
     tables.append({
@@ -195,3 +200,27 @@ def showAuthorStats(author_name):
     args['tables'] = tables
 
     return render_template('authorStats.html', args=args)
+
+@app.route("/distance")
+def showDistance():
+    dataset = app.config['DATASET']
+    db = app.config['DATABASE']
+    args = {"dataset":dataset, "id":"distances"}
+    args['title'] = "Distances"
+    args['description'] = "Enter two author names to find their degree of separation.<br />X = No connection or author not found"
+
+    if "author_name1" in request.args and "author_name2" in request.args:
+        author_name1 = request.args.get("author_name1")
+        author_name2 = request.args.get("author_name2")
+        args['a1'] = author_name1
+        args['a2'] = author_name2
+        args['result'] = db.get_distance_between_authors(author_name1, author_name2)
+
+    return render_template('distance.html', args=args)
+
+#to test dijkstras, not a feature yet (or ever)
+@app.route("/test")
+def dijkstra():
+    db = app.config['DATABASE']
+    print db.get_distance_between_authors("Ceri Stefano", "Fraternali Piero")
+    # return render_template(statist)
