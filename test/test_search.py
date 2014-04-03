@@ -108,3 +108,39 @@ class TestSearch(unittest.TestCase):
             "incorrect number of authors")
         self.assertEqual(data[3][0], "Bechhofer Sean",
             "incorrect author")
+
+    """def test_authors_network(self):
+        db = database.Database()
+        self.assertTrue(db.read(path.join(self.data_dir, "publications_small_sample.xml")))
+        nodes, links = db.get_network_data()
+        distance = db.get_distance_between_authors("Bechhofer Sean", "Bechhofer Sean")
+        self.assertEqual(distance, 0,
+            "incorrect distance between authors")"""
+
+    def test_bfs(self):
+        db = database.Database()
+        self.assertTrue(db.read(path.join(self.data_dir, "publications_small_sample.xml")))
+        distance = db.get_distance_between_authors("Bechhofer Sea", "Bechhofer Sean")
+        self.assertEqual(distance, 'X',
+            "incorrect distance between authors")
+        distance = db.get_distance_between_authors("Bechhofer Sean", "Bechhofer Sean")
+        self.assertEqual(distance, 'X',
+            "incorrect distance between authors")
+        distance = db.get_distance_between_authors("Yesilada Yeliz", "Bechhofer Sean")
+        self.assertEqual(distance, 0,
+            "incorrect distance between authors")
+        distance = db.get_distance_between_authors("Bechhofer Sean", "Yesilada Yeliz")
+        self.assertEqual(distance, 0,
+            "incorrect distance between authors")
+        distance = db.get_distance_between_authors("Bechhofer Sean", "Harper Simon")
+        self.assertEqual(distance, 1,
+            "incorrect distance between authors")
+        distance = db.get_distance_between_authors("Bechhofer Sean", "Hull Duncan")
+        self.assertEqual(distance, 1,
+            "incorrect distance between authors")
+        distance = db.get_distance_between_authors("Bechhofer Sean", "Bornberg-Bauer Erich")
+        self.assertEqual(distance, 'X',
+            "incorrect distance between authors")
+        distance = db.get_distance_between_authors("Stevens Robert", "Ceri Stefano")
+        self.assertEqual(distance, 2,
+            "incorrect distance between authors")

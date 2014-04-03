@@ -469,6 +469,85 @@ class Database:
                     links.add((a, a2))
         return (nodes, links)
 
+    def get_distance_between_authors(self, author1, author2):
+        distance = 'X'
+        if self.author_idx.get(author1) == None or self.author_idx.get(author2) == None:
+            return distance
+        author1_id = self.author_idx[author1]
+        author2_id = self.author_idx[author2]
+
+        node_path = self.bfs(author1_id,author2_id)
+        """
+        visited_authors = []
+        distance = 0
+        coauthors = self._get_collaborations(author1_id, False)
+        if coauthors.has_key(author2_id):
+            return distance
+        visited_authors.append(author1_id)
+
+        while coauthors:
+            queue = coauthors
+            distance += 1
+            for coauthor in queue:
+                if coauthor not in visited_authors:
+                    coauthors_list = self._get_collaborations(coauthor, False)
+                    visited_authors.append(coauthor)
+                    if author2_id in coauthors_list:
+                        return distance
+        """
+        if len(node_path) == 0:
+            distance = 'X'
+        else:
+            distance = len(node_path) - 2
+
+        return distance
+
+    def bfs(self, start, end):
+
+        if start == end:
+            return []
+
+        # maintain a queue of paths
+        queue = []
+        visited_nodes = []
+        path_list = []
+
+        # push the first path into the queue
+        queue.append(start)
+        path_list.append([start])
+        while queue:
+            # get the first path from the queue
+            node = queue.pop(0)
+            current_path = list(path_list.pop(0))
+            visited_nodes.append(node)
+
+            coauthors = self._get_collaborations(node, False)
+            if end in coauthors:
+                current_path.append(end)
+                return current_path
+
+            diff_nodes = [item for item in set(coauthors) if item not in list(itertools.chain(visited_nodes,queue))]
+            if diff_nodes:
+                for item in diff_nodes:
+                    queue.append(item)
+                    new_path = list(current_path)
+                    new_path.append(item)
+                    path_list.append(new_path)
+
+            """
+            # get the last node from the path
+            #node = path[-1]
+            # path found
+            if node == end:
+                return path
+            # enumerate all adjacent nodes, construct a new path and push it into the queue
+            #for adjacent in graph.get(node, []):
+            #    new_path = list(path)
+            #    new_path.append(adjacent)
+            #    queue.append(new_path)
+            """
+        return []
+
     def search_author(self, author_name):
         header, data = self.get_publications_by_author()
         if self.author_idx.get(author_name) == None:
