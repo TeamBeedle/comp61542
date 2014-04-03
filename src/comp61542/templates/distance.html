@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}{{ args.title }}{% endblock %}
+{% block content %}
+
+<h1>{{ args.title }}</h1>
+<h4>{{ args.description|safe }}</h4>
+
+<form name="input" action="/distance" method="get" data-ajax="false" onSubmit="validateForm(this)">
+    1st Author Name: <input type="text" name="author_name1" value="{{ args.author_name1 }}">
+    <br>
+    2nd Author Name: <input type="text" name="author_name2" value="{{ args.author_name2 }}">
+<input type="submit" value="Submit">
+</form>
+    <br>
+        {% if args.a1 != null and args.a2 != null %}
+Distance from {{args.a1}} to {{args.a2}} is: {{args.result}}
+        {% endif %}
+
+<script>
+function validateForm(form){
+  author_name = form["author_name"].value;
+
+  if (author_name.contains([0-9]) || author_name.trim() == ""){
+    alert("Invalid author name");
+    return false;
+  }
+  return true;
+}
+</script>
+
+{% endblock %}
