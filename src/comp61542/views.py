@@ -218,6 +218,14 @@ def showDistance():
 
     return render_template('distance.html', args=args)
 
+@app.route("/about")
+def showabout():
+     dataset = app.config['DATASET']
+     db = app.config['DATABASE']
+     args = {"dataset":dataset, "id":"about"}
+     args['title'] = "About"
+     return render_template('about.html', args=args)
+
 #to test dijkstras, not a feature yet (or ever)
 @app.route("/test")
 def dijkstra():
