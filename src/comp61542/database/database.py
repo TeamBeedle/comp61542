@@ -641,37 +641,37 @@ class Database:
         newData.append(sum(data[9:]))
         return newData
 
-    #gets distance from this author to all the other authors
-    def get_author_distances(self, author_name):
-        # author_id = self.author_idx[author_name]
-        author_id = 0
-        self.distances[author_id] = self.Dijkstra(author_id)
-        #self.distances[author] = self.Dijkstra(self, author)
-
-        return self.distances[author_id]
-
-
-    def Dijkstra(self,start,end=None):
-
-        #G = self.distances
-        D = [999 for _ in range(len(self.authors))]
-        P = self._get_collaborations(start, False).keys()
-        Q = priorityDictionary()
-        Q[start] = 0
-
-        for v in Q:
-            D[v] = Q[v]
-            if v == end: break
-
-            for w in self.distances[v]:
-                vwLength = D[v] + self.distances[v][w]
-                if w in D:
-                    if vwLength < D[w]:
-                        raise ValueError, "Dijkstra Error: Found better in already final Vertex! "
-                elif w not in Q or vwLength < Q[w]:
-                    Q[w] = vwLength
-                    P[w] = v
-        return D
+    # #gets distance from this author to all the other authors
+    # def get_author_distances(self, author_name):
+    #     # author_id = self.author_idx[author_name]
+    #     author_id = 0
+    #     self.distances[author_id] = self.Dijkstra(author_id)
+    #     #self.distances[author] = self.Dijkstra(self, author)
+    #
+    #     return self.distances[author_id]
+    #
+    #
+    # def Dijkstra(self,start,end=None):
+    #
+    #     #G = self.distances
+    #     D = [999 for _ in range(len(self.authors))]
+    #     P = self._get_collaborations(start, False).keys()
+    #     Q = priorityDictionary()
+    #     Q[start] = 0
+    #
+    #     for v in Q:
+    #         D[v] = Q[v]
+    #         if v == end: break
+    #
+    #         for w in self.distances[v]:
+    #             vwLength = D[v] + self.distances[v][w]
+    #             if w in D:
+    #                 if vwLength < D[w]:
+    #                     raise ValueError, "Dijkstra Error: Found better in already final Vertex! "
+    #             elif w not in Q or vwLength < Q[w]:
+    #                 Q[w] = vwLength
+    #                 P[w] = v
+    #     return D
 
 
 class DocumentHandler(handler.ContentHandler):
