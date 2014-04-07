@@ -471,8 +471,10 @@ class Database:
 
     def get_distance_between_authors(self, author1, author2):
         distance = 'X'
-        if self.author_idx.get(author1) == None or self.author_idx.get(author2) == None:
-            return distance
+        if self.author_idx.get(author1) == None :
+            return 'X1'
+        if self.author_idx.get(author2) == None:
+            return 'X2'
         author1_id = self.author_idx[author1]
         author2_id = self.author_idx[author2]
 
