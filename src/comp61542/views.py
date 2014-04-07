@@ -211,34 +211,39 @@ def showDistance():
     if "author_name1" in request.args and "author_name2" in request.args:
         author_name1 = request.args.get("author_name1")
         author_name2 = request.args.get("author_name2")
-        args['a1'] = author_name1
-        args['a2'] = author_name2
-        result = db.get_distance_between_authors(author_name1, author_name2)
-        args['result'] = "Distance from %s to %s is: %s" % (author_name1, author_name2, result)
-        if result == 'X1':
-            lastname = author_name1.rsplit(None,1)[0]
-            firstname = author_name1.rsplit(None,1)[::-1][0]
-            result = db.get_distance_between_authors(firstname + " " + lastname, author_name2)
+        if author_name1 != "" and author_name2 != "":
+            args['a1'] = author_name1
+            args['a2'] = author_name2
+            result = db.get_distance_between_authors(author_name1, author_name2)
+            args['result'] = "Distance from %s to %s is: %s" % (author_name1, author_name2, result)
             if result == 'X1':
-                args['result'] = "Author 1 not found"
-            else:
-                args['result'] = "Distance from %s to %s is: %s" % (args['a1'], args['a2'], result)
-                author_name1 = firstname + " " + lastname
-        if result == 'X2':
-            lastname = author_name2.rsplit(None,1)[0]
-            firstname = author_name2.rsplit(None,1)[::-1][0]
-            result = db.get_distance_between_authors(author_name1, firstname + " " + lastname)
+                lastname = author_name1.rsplit(None,1)[0]
+                firstname = author_name1.rsplit(None,1)[::-1][0]
+                result = db.get_distance_between_authors(firstname + " " + lastname, author_name2)
+                if result == 'X1':
+                    args['result'] = "Author 1 not found"
+                else:
+                    args['result'] = "Distance from %s to %s is: %s" % (args['a1'], args['a2'], result)
+                    author_name1 = firstname + " " + lastname
             if result == 'X2':
-                args['result'] = "Author 2 not found"
-            else:
-                args['result'] = "Distance from %s to %s is: %s" % (args['a1'], args['a2'], result)
-        if result == 'X':
-            lastname1 = author_name1.rsplit(None,1)[0]
-            firstname1 = author_name1.rsplit(None,1)[::-1][0]
-            lastname2 = author_name2.rsplit(None,1)[0]
-            firstname2 = author_name2.rsplit(None,1)[::-1][0]
-            if author_name1 == author_name2 or author_name1 == (firstname2 + " " + lastname2) or (firstname1 + " " + lastname1) == author_name2 or (firstname1 + " " + lastname1) == (firstname2 + " " + lastname2):
-                args['result'] = "Same author"
+                lastname = author_name2.rsplit(None,1)[0]
+                firstname = author_name2.rsplit(None,1)[::-1][0]
+                result = db.get_distance_between_authors(author_name1, firstname + " " + lastname)
+                if result == 'X2':
+                    args['result'] = "Author 2 not found"
+                else:
+                    args['result'] = "Distance from %s to %s is: %s" % (args['a1'], args['a2'], result)
+            if result == 'X':
+                lastname1 = author_name1.rsplit(None,1)[0]
+                firstname1 = author_name1.rsplit(None,1)[::-1][0]
+                lastname2 = author_name2.rsplit(None,1)[0]
+                firstname2 = author_name2.rsplit(None,1)[::-1][0]
+                if author_name1 == author_name2 or author_name1 == (firstname2 + " " + lastname2) or (firstname1 + " " + lastname1) == author_name2 or (firstname1 + " " + lastname1) == (firstname2 + " " + lastname2):
+                    args['result'] = "Same author"
+        else:
+            args['a1'] = ""
+            args['a2'] = ""
+            args['result'] = "Invalid author name"
     return render_template('distance.html', args=args)
 
 @app.route("/about")
