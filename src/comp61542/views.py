@@ -109,9 +109,14 @@ def showPublicationSummary(status):
         args["title"] = "Publication Summary"
         args["data"] = db.get_publication_summary()
         header, data = args["data"]
-        plotted_label, legends, plotted_data = db.plot_publication_summary(data)
+        titles = ["Conference Paper","Journal", "Book", "Book Chapter", ]
+        plotted_label, plotted_data = db.get_plot_data_for_statistic_details(data)
         colors = ['r','g','b','y']
-        generateBarChart(legends[0], plotted_label, legends, colors, plotted_data)
+        # generateBarChart(titles[0], plotted_label, [titles[0]], colors, [plotted_data[0]])
+        # generateBarChart(titles[1], plotted_label, [titles[1]], colors, [plotted_data[1]])
+        # generateBarChart(titles[2], plotted_label, [titles[2]], colors, [plotted_data[2]])
+        # generateBarChart(titles[3], plotted_label, [titles[3]], colors, [plotted_data[3]])
+        generateBarChart(titles[3], plotted_label, titles, colors, plotted_data)
         #generateBarChart(legends[1], plotted_label, legends[1], colors, data[1])
 
     if (status == "publication_author"):
@@ -145,25 +150,19 @@ def generateBarChart(title, labels, legends, colors, data):
     for i in range(len(legends)):
         rect = ax.bar(ind, data[i], width, color = colors[i])
         rects += (rect[0],)
+        for rec in rect:
+            height = rec.get_height()
+            ax.text(rec.get_x()+rec.get_width()/2., 1.05*height, '%d'%int(height),
+                    ha='center', va='bottom')
 
     # add some
     # ax.set_ylabel('Scores')
     ax.set_title(title)
-    ax.set_xticks(ind+width)
+    ax.set_xticks(ind + width/2)
     ax.set_xticklabels(labels)
 
     ax.legend(rects, legends)
     plt.show()
-
-# def autolabel(rects):
-#     # attach some text labels
-#     for rect in rects:
-#         height = rect.get_height()
-#         ax.text(rect.get_x()+rect.get_width()/2., 1.05*height, '%d'%int(height),
-#                 ha='center', va='bottom')
-#
-#     autolabel(rects1)
-#     autolabel(rects2)
 
 
 @app.route("/searchauthors")

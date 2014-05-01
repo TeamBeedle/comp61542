@@ -229,14 +229,6 @@ class Database:
 
         return (header, data)
 
-    def plot_publication_summary(self, data):
-        plotted_label = ["Conference Paper","Journal", "Book", "Book Chapter", ]
-        legends = [data[0][0], data[1][0]]
-        #plotted_data = data
-        plotted_data = [[data[0][1:5]],[data[1][1:5]]]
-        print "hi"
-        return(plotted_label, legends, plotted_data)
-
     def get_average_authors_per_publication_by_author(self, av):
         header = ("Author", "Number of conference papers",
             "Number of journals", "Number of books",
@@ -696,6 +688,13 @@ class Database:
                 plotted_data[j][i] = data[i][j + 1]
         return plotted_label, plotted_data
 
+    def plot_publication_summary(self, data):
+        plotted_label = ["Conference Paper","Journal", "Book", "Book Chapter", ]
+        legends = [data[0][0], data[1][0]]
+        #plotted_data = data
+        plotted_data = [[data[0][1:5]],[data[1][1:5]]]
+        print "hi"
+        return(plotted_label, legends, plotted_data)
 
 class DocumentHandler(handler.ContentHandler):
     TITLE_TAGS = [ "sub", "sup", "i", "tt", "ref" ]
