@@ -1,6 +1,8 @@
 from comp61542 import app
 from database import database
 from flask import (render_template, request)
+import matplotlib.pyplot as plt
+import numpy as np
 
 def format_data(data):
     fmt = "%.2f"
@@ -106,6 +108,11 @@ def showPublicationSummary(status):
     if (status == "publication_summary"):
         args["title"] = "Publication Summary"
         args["data"] = db.get_publication_summary()
+        header, data = args["data"]
+        plotted_label, legends, plotted_data = db.plot_publication_summary(data)
+        colors = ['r','g','b','y']
+        generateBarChart(legends[0], plotted_label, legends, colors, plotted_data)
+        #generateBarChart(legends[1], plotted_label, legends[1], colors, data[1])
 
     if (status == "publication_author"):
         args["title"] = "Author Publication"
@@ -124,6 +131,24 @@ def showPublicationSummary(status):
         args["data"] = db.get_number_of_appearance_by_author()
 
     return render_template('statistics_details.html', args=args)
+
+def generateBarChart(title, labels, legends, colors, data):
+    fig, ax = plt.subplots()
+    ind = np.arange(len(labels))
+    width = 0.35
+    rects = ()
+    for i in range(len(legends)):
+        rect = ax.bar(ind, data[i], width, color = colors[i])
+        rects += (rect[0],)
+
+    # add some
+    ax.set_ylabel('Number of Publications')
+    ax.set_title(title)
+    ax.set_xticks(ind+width)
+    ax.set_xticklabels(labels)
+
+    ax.legend(rects, labels)
+    plt.show()
 
 @app.route("/searchauthors")
 def showSearchAuthor():
