@@ -36,6 +36,13 @@ tsRegister();
   </tbody>
 </table>
 {% if args.title == "Publication by Year" %}
-    <div class="imgholder" align="center"><img src="{{ url_for('static', filename='plots/yearPlot.png') }}" width="460" height="460" alt="" /></a></div>
+    <form name="input" action="/statisticsdetails/publication_year" method="get" data-ajax="false">
+        <input type="submit" value="Show figure" name = "value">
+    </form>
+{% endif %}
+{% if args.title == "Author by Year" %}
+    <form name="input" action="/statisticsdetails/author_year" method="get" data-ajax="false">
+        <input type="submit" value="Show figure" name = "value">
+    </form>
 {% endif %}
 {% endblock %}
