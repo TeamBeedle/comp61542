@@ -45,4 +45,9 @@ tsRegister();
         <input type="submit" value="Show figure" name = "value">
     </form>
 {% endif %}
+{% if args.title == "Publication Summary" %}
+    <form name="input" action="/statisticsdetails/publication_summary" method="get" data-ajax="false">
+        <input type="submit" value="Show figure" name = "value">
+    </form>
+{% endif %}
 {% endblock %}

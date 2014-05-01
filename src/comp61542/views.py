@@ -112,12 +112,16 @@ def showPublicationSummary(status):
         titles = ["Conference Paper","Journal", "Book", "Book Chapter", ]
         plotted_label, plotted_data = db.get_plot_data_for_statistic_details(data)
         colors = ['r','g','b','y']
-        # generateBarChart(titles[0], plotted_label, [titles[0]], colors, [plotted_data[0]])
-        # generateBarChart(titles[1], plotted_label, [titles[1]], colors, [plotted_data[1]])
-        # generateBarChart(titles[2], plotted_label, [titles[2]], colors, [plotted_data[2]])
-        # generateBarChart(titles[3], plotted_label, [titles[3]], colors, [plotted_data[3]])
-        generateBarChart(titles[3], plotted_label, titles, colors, plotted_data)
-        #generateBarChart(legends[1], plotted_label, legends[1], colors, data[1])
+
+        value = ""
+        if "value" in request.args:
+            value = request.args.get("value")
+            # generateBarChart(titles[0], plotted_label, [titles[0]], colors, [plotted_data[0]])
+            # generateBarChart(titles[1], plotted_label, [titles[1]], colors, [plotted_data[1]])
+            # generateBarChart(titles[2], plotted_label, [titles[2]], colors, [plotted_data[2]])
+            # generateBarChart(titles[3], plotted_label, [titles[3]], colors, [plotted_data[3]])
+            generateBarChart(titles[3], plotted_label, titles, colors, 0.1, True, plotted_data)
+            #generateBarChart(legends[1], plotted_label, legends[1], colors, data[1])
 
     if (status == "publication_author"):
         args["title"] = "Author Publication"
@@ -161,7 +165,7 @@ def showPublicationSummary(status):
         value = ""
         if "value" in request.args:
             value = request.args.get("value")
-            generateBarChart('Publications of all authors by year', plotted_label, legends, colors, plotted_data)
+            generateBarChart('Publications of all authors by year', plotted_label, legends, colors, 0.6, True, plotted_data)
 
     if (status == "appearance_author"):
         args["title"] = "Appearance"
@@ -169,18 +173,18 @@ def showPublicationSummary(status):
 
     return render_template('statistics_details.html', args=args)
 
-def generateBarChart(title, labels, legends, colors, data):
+def generateBarChart(title, labels, legends, colors, width, has_numbers, data):
     fig, ax = plt.subplots()
     ind = np.arange(len(labels))
-    width = 0.35
     rects = ()
     for i in range(len(legends)):
         rect = ax.bar(ind, data[i], width, color = colors[i])
         rects += (rect[0],)
-        for rec in rect:
-            height = rec.get_height()
-            ax.text(rec.get_x()+rec.get_width()/2., 1.05*height, '%d'%int(height),
-                    ha='center', va='bottom')
+        if has_numbers:
+            for rec in rect:
+                height = rec.get_height()
+                ax.text(rec.get_x()+rec.get_width()/2., 1.05*height, '%d'%int(height),
+                        ha='center', va='bottom')
 
     # add some
     # ax.set_ylabel('Scores')
