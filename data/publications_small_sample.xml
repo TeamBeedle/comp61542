@@ -70,16 +70,5 @@
     <ee>http://dx.doi.org/10.1093/bib/bbn034</ee>
     <url>db/journals/bib/bib9.html#GobleSHWL08</url>
 </article>
-<inproceedings mdate="2006-02-13" key="conf/assets/HarperGSY04">
-    <author>Stefano Ceri</author>
-    <author>Sean Bechhofer</author>
-    <title>Middleware to expand context and preview in hypertext.</title>
-    <pages>63-70</pages>
-    <year>2004</year>
-    <crossref>conf/assets/2004</crossref>
-    <booktitle>ASSETS</booktitle>
-    <ee>http://doi.acm.org/10.1145/1028630.1028643</ee>
-    <url>db/conf/assets/assets2004.html#HarperGSY04</url>
-</inproceedings>
 
 </dblp>

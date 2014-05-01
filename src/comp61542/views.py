@@ -125,6 +125,11 @@ def showPublicationSummary(status):
     if (status == "author_year"):
         args["title"] = "Author by Year"
         args["data"] = db.get_author_totals_by_year()
+        header, data = args["data"]
+        plotted_label, plotted_data = db.get_plot_data_for_statistic_details(data)
+        legends = header[1:(len(header)-1)]
+        colors = ["r", "y", "g", "b"]
+        generateBarChart('Publications of all authors by year', plotted_label, legends, colors, plotted_data)
 
     if (status == "appearance_author"):
         args["title"] = "Appearance"
@@ -142,13 +147,24 @@ def generateBarChart(title, labels, legends, colors, data):
         rects += (rect[0],)
 
     # add some
-    ax.set_ylabel('Number of Publications')
+    # ax.set_ylabel('Scores')
     ax.set_title(title)
     ax.set_xticks(ind+width)
     ax.set_xticklabels(labels)
 
-    ax.legend(rects, labels)
+    ax.legend(rects, legends)
     plt.show()
+
+# def autolabel(rects):
+#     # attach some text labels
+#     for rect in rects:
+#         height = rect.get_height()
+#         ax.text(rect.get_x()+rect.get_width()/2., 1.05*height, '%d'%int(height),
+#                 ha='center', va='bottom')
+#
+#     autolabel(rects1)
+#     autolabel(rects2)
+
 
 @app.route("/searchauthors")
 def showSearchAuthor():
