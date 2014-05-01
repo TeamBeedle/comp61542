@@ -35,4 +35,7 @@ tsRegister();
   {% endfor %}
   </tbody>
 </table>
+{% if args.title == "Publication by Year" %}
+    <div class="imgholder" align="center"><img src="{{ url_for('static', filename='plots/yearPlot.png') }}" width="460" height="460" alt="" /></a></div>
+{% endif %}
 {% endblock %}

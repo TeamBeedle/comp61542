@@ -3,6 +3,8 @@ import itertools
 import numpy as np
 import difflib
 from xml.sax import handler, make_parser, SAXException
+import matplotlib
+import matplotlib.pyplot as plt
 from priodict import priorityDictionary
 
 
@@ -359,6 +361,33 @@ class Database:
                 ystats[p.year][p.pub_type] += 1
 
         data = [ [y] + ystats[y] + [sum(ystats[y])] for y in ystats ]
+        list = []
+        for i in range(len(data)):
+            tuple = data[i][0], data[i][5]
+            list.append(tuple)
+        list.sort(key=lambda x: x[0])
+        N = len( list )
+        x = np.arange(1, N+1)
+        y = [ num for (s, num) in list ]
+        max=0
+        for num in y:
+            if num > max:
+                max = num
+        labels = [ s for (s, num) in list ]
+        width = 1/1.1
+        bar1 = plt.bar( x, y, width, color="y" )
+        plt.axis( [100, labels[N-1], 0, max+1])
+        plt.ylim([0,max+1])
+        plt.xlim([labels[0],labels[N-1]])
+        #plt.xticks(x + width/2.0, labels )
+        #plt.show()
+        fileName = "comp61542/static/plots/yearPlot.png"
+        plt.savefig(fileName, format="png" )
+        """dates = []
+        data2 = []
+        for i in range(len(list)):
+            dates.append(list[i][0])
+            data2.append(list[i][1])"""
         return (header, data)
 
     def get_average_publications_per_author_by_year(self, av):
