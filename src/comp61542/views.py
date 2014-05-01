@@ -111,7 +111,7 @@ def showPublicationSummary(status):
         header, data = args["data"]
         plotted_label, legends, plotted_data = db.plot_publication_summary(data)
         colors = ['r','g','b','y']
-        generateBarChart(legends[0], plotted_label, legends, colors, plotted_data)
+        generateBarChart(legends[0], plotted_label, [legends], colors, [plotted_data])
         #generateBarChart(legends[1], plotted_label, legends[1], colors, data[1])
 
     if (status == "publication_author"):
