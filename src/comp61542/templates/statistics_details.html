@@ -35,4 +35,14 @@ tsRegister();
   {% endfor %}
   </tbody>
 </table>
+{% if args.title == "Publication by Year" %}
+    <form name="input" action="/statisticsdetails/publication_year" method="get" data-ajax="false">
+        <input type="submit" value="Show figure" name = "value">
+    </form>
+{% endif %}
+{% if args.title == "Author by Year" %}
+    <form name="input" action="/statisticsdetails/author_year" method="get" data-ajax="false">
+        <input type="submit" value="Show figure" name = "value">
+    </form>
+{% endif %}
 {% endblock %}

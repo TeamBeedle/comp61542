@@ -1,11 +1,11 @@
 from comp61542.statistics import average
 import itertools
 import numpy as np
-import networkx as nx
-import matplotlib.pyplot as pl
 import difflib
 from xml.sax import handler, make_parser, SAXException
-
+import matplotlib
+import matplotlib.pyplot as plt
+import networkx as nx
 from priodict import priorityDictionary
 
 
@@ -363,7 +363,28 @@ class Database:
                 ystats[p.year][p.pub_type] += 1
 
         data = [ [y] + ystats[y] + [sum(ystats[y])] for y in ystats ]
+
+        """dates = []
+        data2 = []
+        for i in range(len(list)):
+            dates.append(list[i][0])
+            data2.append(list[i][1])"""
         return (header, data)
+
+    def draw_coauthors(self, author_name):
+        author_id = self.author_idx[author_name]
+        data = self._get_collaborations(author_id, False)
+        nodes = [author_name]
+        for key in data:
+            nodes.append(self.authors[key].name)
+        G=nx.Graph()
+        G.add_star(nodes)
+        pos=nx.spring_layout(G)
+        colors=range(1)
+        nx.draw(G)
+        figManager = plt.get_current_fig_manager()
+        figManager.window.showMaximized()
+        plt.show()
 
     def get_average_publications_per_author_by_year(self, av):
         header = ("Year", "Conference papers",
@@ -688,13 +709,6 @@ class Database:
                 plotted_data[j][i] = data[i][j + 1]
         return plotted_label, plotted_data
 
-    def plot_publication_summary(self, data):
-        plotted_label = ["Conference Paper","Journal", "Book", "Book Chapter", ]
-        legends = [data[0][0], data[1][0]]
-        #plotted_data = data
-        plotted_data = [[data[0][1:5]],[data[1][1:5]]]
-        print "hi"
-        return(plotted_label, legends, plotted_data)
 
 class DocumentHandler(handler.ContentHandler):
     TITLE_TAGS = [ "sub", "sup", "i", "tt", "ref" ]

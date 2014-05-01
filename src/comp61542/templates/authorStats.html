@@ -23,6 +23,9 @@
 </table>
 <br/>
 {% endfor %}
+<form name="input" action="/authorStats/{{ args.author_name }}" method="get" data-ajax="false">
+    <input type="submit" value="Show coauthors figure" name = "value">
+</form>
 <script>
 function validateForm(form){
   author_name = form["author_name"].value;

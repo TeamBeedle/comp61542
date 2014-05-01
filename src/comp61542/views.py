@@ -126,6 +126,30 @@ def showPublicationSummary(status):
     if (status == "publication_year"):
         args["title"] = "Publication by Year"
         args["data"] = db.get_publications_by_year()
+        header, data = args["data"]
+        value = ""
+        if "value" in request.args:
+            value = request.args.get("value")
+            list = []
+            for i in range(len(data)):
+                tuple = data[i][0], data[i][5]
+                list.append(tuple)
+            list.sort(key=lambda x: x[0])
+            N = len( list )
+            x = np.arange(1, N+1)
+            y = [ num for (s, num) in list ]
+            max=0
+            for num in y:
+                if num > max:
+                    max = num
+            labels = [ s for (s, num) in list ]
+            width = 1/1.1
+            bar1 = plt.bar( x, y, width, color="y" )
+            plt.axis( [0, N+1, 0, max+1])
+            plt.xticks(x + width/2.0, labels )
+            figManager = plt.get_current_fig_manager()
+            figManager.window.showMaximized()
+            plt.show()
 
     if (status == "author_year"):
         args["title"] = "Author by Year"
@@ -134,7 +158,10 @@ def showPublicationSummary(status):
         plotted_label, plotted_data = db.get_plot_data_for_statistic_details(data)
         legends = header[1:(len(header)-1)]
         colors = ["r", "y", "g", "b"]
-        generateBarChart('Publications of all authors by year', plotted_label, legends, colors, plotted_data)
+        value = ""
+        if "value" in request.args:
+            value = request.args.get("value")
+            generateBarChart('Publications of all authors by year', plotted_label, legends, colors, plotted_data)
 
     if (status == "appearance_author"):
         args["title"] = "Appearance"
@@ -214,7 +241,13 @@ def showAuthorStats(author_name):
     args = {"dataset":dataset, "id":"searchauthor"}
     args['title'] = "Search Author"
     args['description'] = "Results:"
+    args['author_name'] = author_name
     tables = []
+
+    value = ""
+    if "value" in request.args:
+            value = request.args.get("value")
+            db.draw_coauthors(author_name)
 
     tables.append({
         "id":1,
