@@ -675,6 +675,15 @@ class Database:
     #                 P[w] = v
     #     return D
 
+    def get_plot_data_for_statistic_details(self, data):
+        plotted_label = [0 for _ in range(len(data))]
+        plotted_data = [[0 for __ in range(len(data))] for _ in range(len(data[0]) - 1)]
+        for i in range(len(data)):
+            plotted_label[i] = data[i][0]
+            for j in range(len(data[0]) - 1):
+                plotted_data[j][i] = data[i][j + 1]
+        return plotted_label, plotted_data
+
 
 class DocumentHandler(handler.ContentHandler):
     TITLE_TAGS = [ "sub", "sup", "i", "tt", "ref" ]

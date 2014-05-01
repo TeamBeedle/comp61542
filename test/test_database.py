@@ -181,7 +181,17 @@ class TestDatabase(unittest.TestCase):
         self.assertEqual(sum(data[6][9:13]), 0,
             "incorrect number of sole authors in result")
 
-
+    def test_get_plot_data_for_statistic_details(self):
+        db = database.Database()
+        self.assertTrue(db.read(path.join(self.data_dir, "publications_small_sample.xml")))
+        header, data = db.get_author_totals_by_year()
+        plotted_label, plotted_data = db.get_plot_data_for_statistic_details(data)
+        test_label = [2008, 2002, 2004, 1997, 2006]
+        test_data = [0, 0, 4, 0, 4]
+        self.assertEqual(plotted_label, test_label,
+            "incorrect labels")
+        self.assertEqual(plotted_data[0], test_data,
+            "incorrect data")
 
 if __name__ == '__main__':
     unittest.main()

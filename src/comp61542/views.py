@@ -1,6 +1,8 @@
 from comp61542 import app
 from database import database
 from flask import (render_template, request)
+import matplotlib.pyplot as plt
+import numpy as np
 
 def format_data(data):
     fmt = "%.2f"
@@ -118,12 +120,46 @@ def showPublicationSummary(status):
     if (status == "author_year"):
         args["title"] = "Author by Year"
         args["data"] = db.get_author_totals_by_year()
+        header, data = args["data"]
+        plotted_label, plotted_data = db.get_plot_data_for_statistic_details(data)
+        legends = header[1:(len(header)-1)]
+        colors = ["r", "y", "g", "b"]
+        generateBarChart('Publications of all authors by year', plotted_label, legends, colors, plotted_data)
 
     if (status == "appearance_author"):
         args["title"] = "Appearance"
         args["data"] = db.get_number_of_appearance_by_author()
 
     return render_template('statistics_details.html', args=args)
+
+def generateBarChart(title, labels, legends, colors, data):
+    fig, ax = plt.subplots()
+    ind = np.arange(len(labels))
+    width = 0.35
+    rects = ()
+    for i in range(len(legends)):
+        rect = ax.bar(ind, data[i], width, color = colors[i])
+        rects += (rect[0],)
+
+    # add some
+    # ax.set_ylabel('Scores')
+    ax.set_title(title)
+    ax.set_xticks(ind+width)
+    ax.set_xticklabels(labels)
+
+    ax.legend(rects, legends)
+    plt.show()
+
+# def autolabel(rects):
+#     # attach some text labels
+#     for rect in rects:
+#         height = rect.get_height()
+#         ax.text(rect.get_x()+rect.get_width()/2., 1.05*height, '%d'%int(height),
+#                 ha='center', va='bottom')
+#
+#     autolabel(rects1)
+#     autolabel(rects2)
+
 
 @app.route("/searchauthors")
 def showSearchAuthor():
